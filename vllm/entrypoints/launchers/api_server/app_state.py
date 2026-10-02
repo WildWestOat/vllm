@@ -28,13 +28,6 @@ async def init_app_state(
     supported_tasks: tuple["SupportedTask", ...] | None = None,
 ) -> None:
     vllm_config = engine_client.vllm_config
-    print("-" * 20)
-    print("\n")
-    print("init_app_state")
-    print(vllm_config)
-    print("\n")
-    print("-" * 20)
-    print("\n")
 
     if args.tool_call_parser is not None:
         from vllm.parser.metrics import init_parser_metrics
