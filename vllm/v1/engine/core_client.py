@@ -96,6 +96,10 @@ class EngineCoreClient(ABC):
         log_stats: bool,
         renderer: BaseRenderer | None = None,
     ) -> "EngineCoreClient":
+        print("-" * 20)
+        print("Hello")
+        print(vllm_config)
+        print("-" * 20)
         # renderer is passed through to the multiprocess clients, which start
         # the frontend MM warmup (renderer.start_mm_warmup_in_background) once
         # the engine-core processes have been forked, so warmup overlaps
