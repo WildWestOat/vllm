@@ -153,6 +153,10 @@ class LLMEngine:
         stat_loggers: list[StatLoggerFactory] | None = None,
         disable_log_stats: bool = False,
     ) -> "LLMEngine":
+        print("-"*20)
+        print("from_vllm_config")
+        print(vllm_config)
+        print("-"*20)
         return cls(
             vllm_config=vllm_config,
             executor_class=Executor.get_class(vllm_config),
