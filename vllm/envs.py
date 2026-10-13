@@ -137,6 +137,8 @@ if TYPE_CHECKING:
     VLLM_USE_OINK_OPS: bool = False
     VLLM_MXFP4_EMULATION_DEQUANT_AT_LOAD: bool = False
     VLLM_MXFP8_EMULATION_DEQUANT_AT_LOAD: bool = True
+    VLLM_GFX1151_W4_LOGITS: bool = False
+    VLLM_GFX1151_W4_LOGITS_TOPK: int = 256
     VLLM_ROCM_USE_AITER: bool = False
     VLLM_ROCM_USE_AITER_CUSTOM_AR: bool = True
     VLLM_ROCM_USE_AITER_LINEAR: bool = True
@@ -1278,6 +1280,15 @@ environment_variables: dict[str, Callable[[], Any]] = {
     ),
     "VLLM_ROCM_USE_AITER": lambda: (
         os.getenv("VLLM_ROCM_USE_AITER", "False").lower() in ("true", "1")
+    ),
+    # Experimental gfx1151 derived int4 lm_head with exact top-K reranking for
+    # small token batches. Masks logits outside the top-K, so it is intended for
+    # greedy/low-temperature decoding. Restart to change.
+    "VLLM_GFX1151_W4_LOGITS": lambda: (
+        os.getenv("VLLM_GFX1151_W4_LOGITS", "0").lower() in ("true", "1")
+    ),
+    "VLLM_GFX1151_W4_LOGITS_TOPK": lambda: int(
+        os.getenv("VLLM_GFX1151_W4_LOGITS_TOPK", "256")
     ),
     # Use AITER's CustomAllreduce as the custom-allreduce backend inside vLLM's
     # CudaCommunicator on ROCm. Also enables AITER AG/RS for DP communication.
